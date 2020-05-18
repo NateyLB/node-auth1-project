@@ -3,7 +3,6 @@ const helmet = require("helmet");
 const cors = require("cors");
 const session = require("express-session");
 
-const registerRouter = require('../register/register-router.js');
 const usersRouter = require("../users/users-router.js");
 const authRouter = require("../auth/auth-router.js");
 
@@ -28,7 +27,6 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
-server.use("/api/register", registerRouter);
 server.use("/api/users", usersRouter);
 server.use("/api/auth", authRouter);
 
