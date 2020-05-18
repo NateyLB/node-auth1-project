@@ -14,7 +14,8 @@ router.post("/register", (req, res)=>{
 
         Users.registerUser(credentials)
             .then(user=>{
-                req.session.loggedIn === true;
+                req.session.loggedIn = true;
+                req.session.user = user
                 res.status(201).json({ data: user });
             })
             .catch(error => {

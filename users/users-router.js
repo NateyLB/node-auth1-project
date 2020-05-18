@@ -2,18 +2,12 @@ const router = require("express").Router();
 
 const Users = require("./users-model.js");
 
-//middleware
-function restricted(req, res, next) {
-    if (req.session && req.session.loggedIn) {
-      next();
-    } else {
-      res.status(401).json({ you: "cannot pass!" });
-    }
-  }
-//end middleware
+const Services = require("./users-services.js")
 
-router.get("/", restricted, (req, res)=>{
-    Users.find()
+router.use(Services.restricted)
+
+router.get("/", (req, res)=>{
+    Users.find().orderBy("id")
         .then(users=>{
             res.status(200).json(users)
         })
