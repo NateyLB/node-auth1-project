@@ -26,6 +26,22 @@ router.post("/register", (req, res)=>{
     }
 })
 
+router.post("/login", (req, res)=>{
+    const { username, password } = req.body;
+    Users.findBy({ username })
+        .then(([user])=>{
+            console.log(user)
+            if( user && bcryptjs.compareSync(password, user.password)) {
+                req.session.loggedIn = true;
+                req.session.user = user;
+
+                res.status(200).json({ message: "You are now logged in" });
+            }else {
+                res.status(401).json({ message: "Invalid credentials" });
+              }
+        })
+})
+
 //middleware
 function isValid(user) {
     return Boolean(user.username && user.password && typeof user.password === "string");
